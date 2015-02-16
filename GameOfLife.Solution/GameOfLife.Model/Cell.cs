@@ -1,26 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace GameOfLife.Models
+﻿namespace GameOfLife.Models
 {
     public class Cell
     {
-        public int Row { get; private set; }
-        public int Column { get; private set; }
+        public int Y { get; private set; }
+        public int X { get; private set; }
         public bool IsAlive { get; set; }
 
-        public Cell(int row, int column)
+        public Cell(int x, int y)
         {
-            Row = row;
-            Column = column;    
+            Y = y;
+            X = x;    
         }
 
-        public Cell(int row, int column, bool isAlive)
+        public Cell(int x, int y, bool isAlive)
         {
-            Row = row;
-            Column = column;
+            Y = y;
+            X = x;
             IsAlive = isAlive;
         }
     }

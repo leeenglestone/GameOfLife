@@ -1,0 +1,4 @@
+C:\Development\GameOfLife\GameOfLife.Solution\GameOfLife.Model\bin\Debug\GameOfLife.Model.dll
+C:\Development\GameOfLife\GameOfLife.Solution\GameOfLife.Model\bin\Debug\GameOfLife.Model.pdb
+C:\Development\GameOfLife\GameOfLife.Solution\GameOfLife.Model\obj\Debug\GameOfLife.Model.dll
+C:\Development\GameOfLife\GameOfLife.Solution\GameOfLife.Model\obj\Debug\GameOfLife.Model.pdb
