@@ -53,8 +53,7 @@ namespace GameOfLife.Models
             foreach (var cell in Generation.Cells)
             {
                 // Get number of neighbours
-                int livingNeighbours = GetNumberOfLivingNeighbours(cell.Y, cell.X);
-
+                int livingNeighbours = GetNumberOfLivingNeighbours(cell.X, cell.Y);
 
                 if (livingNeighbours < 2)
                     cell.IsAlive = false;
@@ -71,23 +70,30 @@ namespace GameOfLife.Models
 
                 Console.WriteLine("Living Neighbours : {0}", livingNeighbours);
                 Console.WriteLine("IsAlive : {0}", cell.IsAlive);
-
-
-
             }
         }
 
-        public List<WorldPoint> GetNeighbourPositions()
+        public List<WorldPoint> GetNeighbourPositions(int xPosition, int yPosition)
         {
             var positions = new List<WorldPoint>();
 
-            for(int x = -1; x <= 1; x++)
+            // for each horizontal
+            for (int x = xPosition - 1; x <= xPosition+1; x++)
             {
-                for(int y = -1; y <= 1; y++)
+                for (int y = yPosition - 1; y <= yPosition+1; y++)                
                 {
-                    if (!(x == 0 && y == 0))
+                    if (!(x == xPosition && y == yPosition))
                     {
-                        
+                        try
+                        {                            
+                            if (Generation.GetCells()[x, y] != null)
+                            {
+                                positions.Add(new WorldPoint(x, y));
+                            }
+                        }
+                        catch { }
+
+
                     }
 
                 }
@@ -97,44 +103,28 @@ namespace GameOfLife.Models
 
         }
 
-        public int GetNumberOfLivingNeighbours(int row, int column)
+        private int GetNumberOfLivingNeighbours(int x, int y)
         {
             Console.WriteLine("");
-            Console.WriteLine("Checking[{0},{1}] neighbours", row, column);
+            Console.WriteLine("Checking[{0},{1}] neighbours", x, y);
 
             int neighbours = 0;
 
-            var neighbourPositions = GetNeighbourPositions();
+            // All neighbouring positions
+            var neighbourPositions = GetNeighbourPositions(x,y);
 
             foreach (var worldPoint in neighbourPositions)
             {
-                
+                var cell = Generation.GetCells()[worldPoint.X, worldPoint.Y];
+
+                Console.WriteLine("Checking position [{0},{1}] = {2}", worldPoint.X, worldPoint.Y, cell.IsAlive);
+
+                if (cell.IsAlive)
+                {
+                    neighbours++;
+                }
+
             }
-
-
-            //for (int x = -1; x <= 1; x++)
-            //{
-            //    for (int y = -1; y <= 1; y++)
-            //    {
-            //        if (!(x == 0 && y == 0))
-            //        {
-            //            try
-            //            {
-            //                Console.WriteLine("Checking if neighbour [{0},{1}] is alive = {2}", row + y, column + x, _cells[row + y, column + x].IsAlive);
-
-            //                if (_cells[row + y, column + x].IsAlive)
-            //                {
-            //                    neighbours++;
-            //                    Console.WriteLine("Neighbour found");
-            //                }
-            //            }
-            //            catch
-            //            {
-
-            //            }
-            //        }
-            //    }
-            //}
 
             return neighbours;
         }
