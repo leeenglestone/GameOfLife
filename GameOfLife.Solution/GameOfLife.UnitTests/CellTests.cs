@@ -1,5 +1,4 @@
 ﻿using System;
-using System.CodeDom;
 using GameOfLife.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -26,11 +25,17 @@ namespace GameOfLife.UnitTests
         [TestMethod]
         public void Generation_Constructor_ShouldInitialiseCells()
         {
+            /*
+              
+             - X - 
+             - X X
+             - - -               
+             
+            */
 
             var cells = new Cell[3, 3];
             cells[1, 0] = new Cell(1, 0, true);
-            cells[1, 1] = new Cell(1, 1, true);
-            cells[1, 2] = new Cell(1, 2, false);
+            cells[1, 1] = new Cell(1, 1, true);            
             cells[2, 1] = new Cell(2, 1, true);
 
             Generation generation = new Generation(cells);
@@ -50,6 +55,8 @@ namespace GameOfLife.UnitTests
             Assert.IsTrue(generation.GetCells()[2, 1].IsAlive);
             Assert.IsFalse(generation.GetCells()[2, 2].IsAlive);
 
+            Console.WriteLine(generation.ToString());
+
         }
 
         [TestMethod]
@@ -62,7 +69,7 @@ namespace GameOfLife.UnitTests
             var world = new World(generation);
             world.Evolve();
 
-            Assert.IsFalse(cells[1, 1].IsAlive);
+            Assert.IsFalse(world.GetCell(1,1).IsAlive);
         }
 
         [TestMethod]
@@ -76,38 +83,373 @@ namespace GameOfLife.UnitTests
             var world = new World(generation);
             world.Evolve();
 
-            Assert.IsFalse(cells[1, 1].IsAlive);
+            Assert.IsFalse(world.GetCell(1,1).IsAlive);
         }
 
         [TestMethod]
         public void World_WhenEvolves_LivingCellWith2NeighboursLives()
         {
+            // - X -
+            // - X X 
+            // - - - 
+
             var cells = new Cell[3, 3];
             cells[1, 0] = new Cell(1, 0, true);
             cells[1, 1] = new Cell(1, 1, true);
+            cells[2, 1] = new Cell(2, 1, true);
+            var generation = new Generation(cells);
+
+            Console.WriteLine(generation.ToString());
+
+            var world = new World(generation);
+            world.Evolve();
+
+            Console.WriteLine(generation.ToString());
+
+            Assert.IsTrue(world.GetCell(1,1).IsAlive);
+        }
+
+        [TestMethod]
+        public void World_WhenEvolves_LivingCellWith4NeighboursDies()
+        {
+            // X X X
+            // - X X 
+            // - - - 
+
+            var cells = new Cell[3, 3];
+            cells[0, 0] = new Cell(0, 0, true);
+            cells[1, 0] = new Cell(1, 0, true);
+            cells[2, 0] = new Cell(2, 0, true);
+
+            cells[1, 1] = new Cell(1, 1, true);
+            cells[2, 1] = new Cell(2, 1, true);
+            var generation = new Generation(cells);
+
+            Console.WriteLine(generation.ToString());
+
+            var world = new World(generation);
+            world.Evolve();
+
+            Console.WriteLine(generation.ToString());
+
+            Assert.IsTrue(world.GetCell(1, 1).IsDead);
+        }
+
+        [TestMethod]
+        public void World_WhenEvolves_LivingCellWith5NeighboursDies()
+        {
+            // X X X
+            // X X X 
+            // - - - 
+
+            var cells = new Cell[3, 3];
+            cells[0, 0] = new Cell(0, 0, true);
+            cells[1, 0] = new Cell(1, 0, true);
+            cells[2, 0] = new Cell(2, 0, true);
+
+            cells[0, 1] = new Cell(0, 1, true);
+            cells[1, 1] = new Cell(1, 1, true);
+            cells[2, 1] = new Cell(2, 1, true);
+
+            var generation = new Generation(cells);
+
+            Console.WriteLine(generation.ToString());
+
+            var world = new World(generation);
+            world.Evolve();
+
+            Console.WriteLine(generation.ToString());
+
+            Assert.IsTrue(world.GetCell(1, 1).IsDead);
+        }
+
+        [TestMethod]
+        public void World_WhenEvolves_LivingCellWith6NeighboursDies()
+        {
+            // X X X
+            // X X X 
+            // X - - 
+
+            var cells = new Cell[3, 3];
+            cells[0, 0] = new Cell(0, 0, true);
+            cells[1, 0] = new Cell(1, 0, true);
+            cells[2, 0] = new Cell(2, 0, true);
+
+            cells[0, 1] = new Cell(0, 1, true);
+            cells[1, 1] = new Cell(1, 1, true);
+            cells[2, 1] = new Cell(2, 1, true);
+
+            cells[0, 2] = new Cell(0, 2, true);
+
+            var generation = new Generation(cells);
+
+            Console.WriteLine(generation.ToString());
+
+            var world = new World(generation);
+            world.Evolve();
+
+            Console.WriteLine(generation.ToString());
+
+            Assert.IsTrue(world.GetCell(1, 1).IsDead);
+        }
+
+        [TestMethod]
+        public void World_WhenEvolves_LivingCellWith7NeighboursDies()
+        {
+            // X X X
+            // X X X 
+            // X X - 
+
+            var cells = new Cell[3, 3];
+            cells[0, 0] = new Cell(0, 0, true);
+            cells[1, 0] = new Cell(1, 0, true);
+            cells[2, 0] = new Cell(2, 0, true);
+
+            cells[0, 1] = new Cell(0, 1, true);
+            cells[1, 1] = new Cell(1, 1, true);
+            cells[2, 1] = new Cell(2, 1, true);
+
+            cells[0, 2] = new Cell(0, 2, true);
             cells[1, 2] = new Cell(1, 2, true);
+            cells[2, 2] = new Cell(2, 2, false);
+
+            var generation = new Generation(cells);
+
+            Console.WriteLine(generation.ToString());
+
+            var world = new World(generation);
+            world.Evolve();
+
+            Console.WriteLine(generation.ToString());
+
+            Assert.IsTrue(world.GetCell(1, 1).IsDead);
+        }
+
+        [TestMethod]
+        public void World_WhenEvolves_LivingCellWith8NeighboursDies()
+        {
+            // X X X
+            // X X X 
+            // X X X 
+
+            var cells = new Cell[3, 3];
+            cells[0, 0] = new Cell(0, 0, true);
+            cells[1, 0] = new Cell(1, 0, true);
+            cells[2, 0] = new Cell(2, 0, true);
+
+            cells[0, 1] = new Cell(0, 1, true);
+            cells[1, 1] = new Cell(1, 1, true);
+            cells[2, 1] = new Cell(2, 1, true);
+
+            cells[0, 2] = new Cell(0, 2, true);
+            cells[1, 2] = new Cell(1, 2, true);
+            cells[2, 2] = new Cell(2, 2, true);
+
+            var generation = new Generation(cells);
+
+            Console.WriteLine(generation.ToString());
+
+            var world = new World(generation);
+            world.Evolve();
+
+            Console.WriteLine(generation.ToString());
+
+            Assert.IsTrue(world.GetCell(1, 1).IsDead);
+        }
+
+        [TestMethod]
+        public void World_WhenEvolves_DeadCellWith0NeighboursStaysDead()
+        {
+            var cells = new Cell[3, 3];            
+
             var generation = new Generation(cells);
 
             var world = new World(generation);
             world.Evolve();
 
-            Assert.IsTrue(cells[1, 1].IsAlive);
+            Assert.IsTrue(cells[1, 1].IsDead);
+            Assert.IsTrue(world.GetNumberOfLivingCells() == 0);
+        }
+
+        [TestMethod]
+        public void World_WhenEvolves_DeadCellWith1NeighbourStaysDead()
+        {
+            var cells = new Cell[3, 3];
+            cells[1, 0] = new Cell(1, 0, true);
+
+            var generation = new Generation(cells);
+            var world = new World(generation);
+            world.Evolve();
+            
+            Assert.IsTrue(cells[1, 1].IsDead);
+            Assert.IsTrue(world.GetNumberOfLivingCells() == 0);
+        }
+
+        [TestMethod]
+        public void World_WhenEvolves_DeadCellWith2NeighboursStaysDead()
+        {
+            // - X -  
+            // - - X
+            // - - - 
+
+            var cells = new Cell[3, 3];
+            cells[1, 0] = new Cell(1, 0, true);
+            cells[2, 1] = new Cell(2, 1, true);
+
+            var generation = new Generation(cells);
+            var world = new World(generation);
+            world.Evolve();
+
+            Assert.IsTrue(world.GetCell(1,1).IsDead);
+            Assert.IsTrue(world.GetNumberOfLivingCells() == 0);
         }
 
         [TestMethod]
         public void World_WhenEvolves_DeadCellWithExactly3NeighboursComesToLife()
         {
+            // X X X  
+            // - - -
+            // - - - 
+
             var cells = new Cell[3, 3];
+            cells[0, 0] = new Cell(0, 0, true);
+            cells[1, 0] = new Cell(1, 0, true);
+            cells[2, 0] = new Cell(2, 0, true);
+
+            var generation = new Generation(cells);
+            Console.WriteLine(generation.ToString());
+
+            var world = new World(generation);            
+
+            world.Evolve();           
+
+            Assert.IsTrue(world.GetCell(1,1).IsAlive);
+        }
+
+        [TestMethod]
+        public void World_WhenEvolves_DeadCellWith4NeighboursStaysDead()
+        {
+            // X X X  
+            // - - X
+            // - - - 
+
+            var cells = new Cell[3, 3];
+            cells[0, 0] = new Cell(0, 0, true);
+            cells[1, 0] = new Cell(1, 0, true);
+            cells[2, 0] = new Cell(2, 0, true);
+            cells[2, 1] = new Cell(2, 1, true);
+
+            var generation = new Generation(cells);
+            Console.WriteLine(generation.ToString());
+
+            var world = new World(generation);
+
+            world.Evolve();
+
+            Assert.IsTrue(world.GetCell(1, 1).IsDead);
+        }
+
+        [TestMethod]
+        public void World_WhenEvolves_DeadCellWith5NeighboursStaysDead()
+        {
+            // X X X  
+            // X - X
+            // - - - 
+
+            var cells = new Cell[3, 3];
+            cells[0, 0] = new Cell(0, 0, true);
+            cells[1, 0] = new Cell(1, 0, true);
+            cells[2, 0] = new Cell(2, 0, true);
+            cells[2, 1] = new Cell(2, 1, true);
             cells[0, 1] = new Cell(0, 1, true);
-            cells[1, 1] = new Cell(1, 1, true);
+
+            var generation = new Generation(cells);
+            Console.WriteLine(generation.ToString());
+
+            var world = new World(generation);
+
+            world.Evolve();
+
+            Assert.IsTrue(world.GetCell(1, 1).IsDead);
+        }
+
+        [TestMethod]
+        public void World_WhenEvolves_DeadCellWith6NeighboursStaysDead()
+        {
+            // X X X  
+            // X - X
+            // X - - 
+
+            var cells = new Cell[3, 3];
+            cells[0, 0] = new Cell(0, 0, true);
+            cells[1, 0] = new Cell(1, 0, true);
+            cells[2, 0] = new Cell(2, 0, true);
+
+            cells[2, 1] = new Cell(2, 1, true);
+            cells[0, 1] = new Cell(0, 1, true);
+            cells[0, 2] = new Cell(0, 2, true);
+
+            var generation = new Generation(cells);
+            Console.WriteLine(generation.ToString());
+
+            var world = new World(generation);
+
+            world.Evolve();
+
+            Assert.IsTrue(world.GetCell(1, 1).IsDead);
+        }
+
+        [TestMethod]
+        public void World_WhenEvolves_DeadCellWith7NeighboursStaysDead()
+        {
+            // X X X  
+            // X - X
+            // X X - 
+
+            var cells = new Cell[3, 3];
+            cells[0, 0] = new Cell(0, 0, true);
+            cells[1, 0] = new Cell(1, 0, true);
+            cells[2, 0] = new Cell(2, 0, true);
+            cells[2, 1] = new Cell(2, 1, true);
+            cells[0, 1] = new Cell(0, 1, true);
+            cells[0, 2] = new Cell(0, 2, true);
             cells[1, 2] = new Cell(1, 2, true);
 
             var generation = new Generation(cells);
+            Console.WriteLine(generation.ToString());
 
             var world = new World(generation);
+
             world.Evolve();
 
-            Assert.IsTrue(cells[1, 1].IsAlive);
+            Assert.IsTrue(world.GetCell(1, 1).IsDead);
+        }
+
+        [TestMethod]
+        public void World_WhenEvolves_DeadCellWith8NeighboursStaysDead()
+        {
+            // X X X  
+            // X - X
+            // X X X 
+
+            var cells = new Cell[3, 3];
+            cells[0, 0] = new Cell(0, 0, true);
+            cells[1, 0] = new Cell(1, 0, true);
+            cells[2, 0] = new Cell(2, 0, true);
+            cells[2, 1] = new Cell(2, 1, true);
+            cells[0, 1] = new Cell(0, 1, true);
+            cells[0, 2] = new Cell(0, 2, true);
+            cells[1, 2] = new Cell(1, 2, true);
+            cells[2, 2] = new Cell(2, 2, true);
+
+            var generation = new Generation(cells);
+            Console.WriteLine(generation.ToString());
+
+            var world = new World(generation);
+
+            world.Evolve();
+
+            Assert.IsTrue(world.GetCell(1, 1).IsDead);
         }
 
         [TestMethod]
@@ -157,7 +499,6 @@ namespace GameOfLife.UnitTests
             var neighbours = world.GetNeighbourPositions(0, 1);
 
             Assert.AreEqual(5, neighbours.Count);
-
         }
 
         [TestMethod]
@@ -170,7 +511,6 @@ namespace GameOfLife.UnitTests
             var neighbours = world.GetNeighbourPositions(2, 1);
 
             Assert.AreEqual(5, neighbours.Count);
-
         }
 
         [TestMethod]
@@ -183,7 +523,6 @@ namespace GameOfLife.UnitTests
             var neighbours = world.GetNeighbourPositions(2, 0);
 
             Assert.AreEqual(3, neighbours.Count);
-
         }
 
         [TestMethod]
@@ -209,6 +548,53 @@ namespace GameOfLife.UnitTests
             var neighbours = world.GetNeighbourPositions(1, 1);
 
             Assert.AreEqual(8, neighbours.Count);
+        }
+
+        [TestMethod]        
+        public void World_GetNumberOfLivingNeighbours_v1()
+        {
+            var cells = new Cell[3, 3];
+            cells[1,0] = new Cell(1,0,true);
+            cells[2, 1] = new Cell(2, 1, true);
+            var generation = new Generation(cells);
+            var world = new World(generation);
+
+            var livingNeighbours = world.GetNumberOfLivingNeighbours(1, 1);
+
+            Assert.AreEqual(2, livingNeighbours);
+
+        }
+
+        [TestMethod]
+        public void Generation_GetCell_ShouldReturnCorrectCell()
+        {
+            // - X -  
+            // - - X
+            // - - - 
+
+            var cells = new Cell[3, 3];
+            cells[1, 0] = new Cell(1, 0, true);
+            cells[2, 1] = new Cell(2, 1, true);
+
+            var generation = new Generation(cells);
+
+            var cell = generation.GetCell(1, 0);
+
+            //var world = new World(generation);
+
+            ///var livingNeighbours = world.GetNumberOfLivingNeighbours(1, 1);
+
+            Assert.IsTrue(generation.GetCell(0, 0).IsDead);
+            Assert.IsTrue(generation.GetCell(1, 0).IsAlive);
+            Assert.IsTrue(generation.GetCell(2, 0).IsDead);
+
+            Assert.IsTrue(generation.GetCell(0, 1).IsDead);
+            Assert.IsTrue(generation.GetCell(1, 1).IsDead);
+            Assert.IsTrue(generation.GetCell(2, 1).IsAlive);
+
+            Assert.IsTrue(generation.GetCell(0, 2).IsDead);
+            Assert.IsTrue(generation.GetCell(1, 2).IsDead);
+            Assert.IsTrue(generation.GetCell(2, 2).IsDead);
 
         }
     }

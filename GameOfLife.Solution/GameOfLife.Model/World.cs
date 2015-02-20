@@ -7,70 +7,66 @@ namespace GameOfLife.Models
     public class World
     {
         public Generation Generation { get; private set; }
-
-        //Cell[,] _cells;
-       
-        //public World(Cell[,] cells)
-        //{
-        //    _cells = cells;
-
-        //    for (int row = 0; row < _cells.GetLength(0); row++)
-        //    {
-        //        for (int column = 0; column < _cells.GetLength(1); column++)
-        //        {
-        //            if (_cells[row, column] == null)
-        //            {
-        //                _cells[row, column] = new Cell(row, column, false);
-        //            }
-        //        }
-        //    }
-        //}        
-
+    
         public World(Generation generation)
-        {
-            //_cells = generation.Cells;
-            Generation = generation;
-
-            for (int row = 0; row < Generation.Cells.GetLength(0); row++)
-            {
-                for (int column = 0; column < Generation.Cells.GetLength(1); column++)
-                {
-                    if (Generation.Cells[row, column] == null)
-                    {
-                        Generation.Cells[row, column] = new Cell(row, column, false);
-                    }
-                }
-            }
+        {            
+            Generation = generation;         
         }        
 
         public int GetCellCount()
         {
-            return Generation.Cells.Length;
+            return Generation.GetCellCount();
+        }
+
+        public Cell GetCell(int x, int y)
+        {
+            return Generation.GetCell(x, y);
         }
 
         public void Evolve()
         {
+            var newGeneration = Generation.Clone();
+            newGeneration.Genocide();
+
             foreach (var cell in Generation.Cells)
             {
+                Console.WriteLine("");
+                Console.WriteLine("== Checking cell ({0},{1})== ", cell.X, cell.Y);
+                Console.WriteLine(Generation.ToString());
+
                 // Get number of neighbours
                 int livingNeighbours = GetNumberOfLivingNeighbours(cell.X, cell.Y);
 
+                Console.WriteLine("Number of living neighbours : {0}",livingNeighbours);
+                Console.WriteLine("Cell IsAlive : {0}", cell.IsAlive);
+
+
                 if (livingNeighbours < 2)
-                    cell.IsAlive = false;
+                {                    
+                    newGeneration.Cells[cell.X, cell.Y].IsAlive = false;                    
+                }
+                else if ((livingNeighbours == 2 && cell.IsAlive))
+                {
+                    //cell.IsAlive = true;
+                    newGeneration.Cells[cell.X, cell.Y].IsAlive = true;
+                    
+                }
+                else if (livingNeighbours == 3)
+                {
+                    //cell.IsAlive = true;
+                    newGeneration.Cells[cell.X, cell.Y].IsAlive = true;
+                    
+                }
+                else if (livingNeighbours > 3)
+                {
+                //    cell.IsAlive = false;
+                    newGeneration.Cells[cell.X, cell.Y].IsAlive = false;
+                }
 
-                if (livingNeighbours == 2 || livingNeighbours == 3)
-                    cell.IsAlive = true;
-
-                if (livingNeighbours > 3)
-                    cell.IsAlive = false;
-
-                if (livingNeighbours == 3)
-                    cell.IsAlive = true;
-
-
-                Console.WriteLine("Living Neighbours : {0}", livingNeighbours);
-                Console.WriteLine("IsAlive : {0}", cell.IsAlive);
+                //newGeneration.Cells[cell.X, cell.Y].IsAlive = cell.IsAlive;
             }
+
+            Generation = newGeneration;
         }
 
         public List<WorldPoint> GetNeighbourPositions(int xPosition, int yPosition)
@@ -103,10 +99,10 @@ namespace GameOfLife.Models
 
         }
 
-        private int GetNumberOfLivingNeighbours(int x, int y)
+        public int GetNumberOfLivingNeighbours(int x, int y)
         {
-            Console.WriteLine("");
-            Console.WriteLine("Checking[{0},{1}] neighbours", x, y);
+            //Console.WriteLine("");
+            //Console.WriteLine("Checking[{0},{1}] neighbours", x, y);
 
             int neighbours = 0;
 
@@ -117,7 +113,7 @@ namespace GameOfLife.Models
             {
                 var cell = Generation.GetCells()[worldPoint.X, worldPoint.Y];
 
-                Console.WriteLine("Checking position [{0},{1}] = {2}", worldPoint.X, worldPoint.Y, cell.IsAlive);
+                //Console.WriteLine("Checking position [{0},{1}] = {2}", worldPoint.X, worldPoint.Y, cell.IsAlive);
 
                 if (cell.IsAlive)
                 {
@@ -128,5 +124,22 @@ namespace GameOfLife.Models
 
             return neighbours;
         }
+
+        public int GetNumberOfLivingCells()
+        {
+            var numberOflivingCells = 0;
+
+            for (int row = 0; row < Generation.Cells.GetLength(0); row++)
+            {
+                for (int column = 0; column < Generation.Cells.GetLength(1); column++)
+                {
+                    if (Generation.GetCell(column, row).IsAlive)
+                        numberOflivingCells++;
+                }
+            }
+
+            return numberOflivingCells;
+        }
+
     }
 }
