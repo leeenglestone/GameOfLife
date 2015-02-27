@@ -46,24 +46,20 @@ namespace GameOfLife.Models
                     newGeneration.Cells[cell.X, cell.Y].IsAlive = false;                    
                 }
                 else if ((livingNeighbours == 2 && cell.IsAlive))
-                {
-                    //cell.IsAlive = true;
+                {                    
                     newGeneration.Cells[cell.X, cell.Y].IsAlive = true;
                     
                 }
                 else if (livingNeighbours == 3)
-                {
-                    //cell.IsAlive = true;
+                {                    
                     newGeneration.Cells[cell.X, cell.Y].IsAlive = true;
                     
                 }
                 else if (livingNeighbours > 3)
-                {
-                //    cell.IsAlive = false;
+                {                
                     newGeneration.Cells[cell.X, cell.Y].IsAlive = false;
                 }
-
-                //newGeneration.Cells[cell.X, cell.Y].IsAlive = cell.IsAlive;
+                
             }
 
             Generation = newGeneration;

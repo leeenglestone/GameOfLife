@@ -1,0 +1,9 @@
+C:\Development\GameOfLife\GameOfLife.Solution\GameOfLife.UnitTests.FSharp\bin\Debug\GameOfLife.UnitTests.FSharp.XML
+C:\Development\GameOfLife\GameOfLife.Solution\GameOfLife.UnitTests.FSharp\bin\Debug\GameOfLife.UnitTests.FSharp.dll
+C:\Development\GameOfLife\GameOfLife.Solution\GameOfLife.UnitTests.FSharp\bin\Debug\GameOfLife.UnitTests.FSharp.pdb
+C:\Development\GameOfLife\GameOfLife.Solution\GameOfLife.UnitTests.FSharp\bin\Debug\FSharp.Core.dll
+C:\Development\GameOfLife\GameOfLife.Solution\GameOfLife.UnitTests.FSharp\bin\Debug\nunit.framework.dll
+C:\Development\GameOfLife\GameOfLife.Solution\GameOfLife.UnitTests.FSharp\bin\Debug\FSharp.Core.xml
+C:\Development\GameOfLife\GameOfLife.Solution\GameOfLife.UnitTests.FSharp\bin\Debug\nunit.framework.xml
+C:\Development\GameOfLife\GameOfLife.Solution\GameOfLife.UnitTests.FSharp\obj\Debug\GameOfLife.UnitTests.FSharp.dll
+C:\Development\GameOfLife\GameOfLife.Solution\GameOfLife.UnitTests.FSharp\obj\Debug\GameOfLife.UnitTests.FSharp.pdb

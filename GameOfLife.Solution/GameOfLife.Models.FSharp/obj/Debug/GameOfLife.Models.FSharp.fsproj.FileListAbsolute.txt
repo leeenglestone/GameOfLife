@@ -1,0 +1,7 @@
+C:\Development\GameOfLife\GameOfLife.Solution\GameOfLife.Models.FSharp\bin\Debug\GameOfLife.Models.FSharp.XML
+C:\Development\GameOfLife\GameOfLife.Solution\GameOfLife.Models.FSharp\bin\Debug\GameOfLife.Models.FSharp.dll
+C:\Development\GameOfLife\GameOfLife.Solution\GameOfLife.Models.FSharp\bin\Debug\GameOfLife.Models.FSharp.pdb
+C:\Development\GameOfLife\GameOfLife.Solution\GameOfLife.Models.FSharp\bin\Debug\FSharp.Core.dll
+C:\Development\GameOfLife\GameOfLife.Solution\GameOfLife.Models.FSharp\bin\Debug\FSharp.Core.xml
+C:\Development\GameOfLife\GameOfLife.Solution\GameOfLife.Models.FSharp\obj\Debug\GameOfLife.Models.FSharp.dll
+C:\Development\GameOfLife\GameOfLife.Solution\GameOfLife.Models.FSharp\obj\Debug\GameOfLife.Models.FSharp.pdb
